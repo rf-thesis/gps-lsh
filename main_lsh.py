@@ -3,9 +3,15 @@ import logging
 from datasketch import MinHash, MinHashLSH
 import time
 import csv
+import glob
+
+# read all data files at once
+datafiles = glob.glob()
 
 # This is the similarity threshold
 threshold = 0.5
+
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
