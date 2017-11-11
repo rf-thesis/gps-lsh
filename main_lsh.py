@@ -9,7 +9,7 @@ from multiprocessing import Process
 
 
 # read all data files at once
-datafiles = glob.glob("smdata/*")
+datafiles = glob.glob("data/*")
 
 # This is the similarity threshold
 threshold = 0.5
