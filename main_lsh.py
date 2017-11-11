@@ -9,7 +9,7 @@ from multiprocessing import Process
 
 
 # read all data files at once
-datafiles = glob.glob("data/*")
+datafiles = glob.glob("smdata/*")
 
 # This is the similarity threshold
 threshold = 0.5
@@ -63,6 +63,7 @@ def run_lsh(sigMat, data, fname):
 
 def finder(datafile):
     print("%s: starting to process" % datafile)
+    totstart = time.time()
     fname = ntpath.basename(datafile)
     # create logger to write output
     logger = logging.getLogger(__name__)
@@ -113,9 +114,10 @@ def finder(datafile):
 
         # Display the progress of building LSH
         if rownum % rowprinter == 0:
-            logger.info("%-22s LSH display at row: %s" % (fname, rownum))
+            print("%-22s LSH display at row: %s" % (fname, rownum))
 
     print("%-22s results done --  %s sec" % (fname, str(time.time() - start)))
+    print("%-22s total time --  %s sec" % (fname, str(time.time() - totstart)))
 
 
 
