@@ -7,7 +7,6 @@ import glob
 import ntpath
 from multiprocessing import Process
 
-
 # read all data files at once
 datafiles = glob.glob("data/*")
 
@@ -21,7 +20,7 @@ rowprinter = 5000
 def get_jaccard_similarity(listA, listB):
     return float(len(set(listA).intersection(set(listB)))) / float(len(set(listA).union(set(listB))))
 
-
+# sigMat generator
 def sig_matrix(data, fname):
     sigMat = []
     for rownum in range(len(data)):
@@ -45,7 +44,7 @@ def sig_matrix(data, fname):
             print("%-22s sigmat gen at row: %s" % (fname, rownum))
     return sigMat
 
-
+# lsh runner
 def run_lsh(sigMat, data, fname):
     lsh = MinHashLSH(threshold=threshold, num_perm=100)
 
@@ -60,11 +59,12 @@ def run_lsh(sigMat, data, fname):
 
     return lsh
 
-
+# file runner
 def finder(datafile):
     print("%s: starting to process" % datafile)
     totstart = time.time()
     fname = ntpath.basename(datafile)
+
     # create logger to write output
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
@@ -119,12 +119,7 @@ def finder(datafile):
     print("%-22s results done --  %s sec" % (fname, str(time.time() - start)))
     print("%-22s total time --  %s sec" % (fname, str(time.time() - totstart)))
 
-
-
-
-# for d in datafiles:
-#     finder(d)
-
+# use multiple processes
 starter = time.time()
 processlist = []
 for d in datafiles:
@@ -138,10 +133,3 @@ for p in processlist:
     p.join()
 
 print("Total time: %s" % str(time.time() - starter))
-
-
-
-
-
-
-
