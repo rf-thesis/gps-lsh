@@ -120,7 +120,7 @@ def finder(datafile):
 
         # Display the progress of building LSH
         if rownum % rowprinter == 0:
-            printlogger.info("%-22s LSH display at row: %s" % (fname, rownum))
+            logger.info("%-22s LSH display at row: %s" % (fname, rownum))
 
     printlogger.info("%-22s results done --  %s sec" % (fname, str(time.time() - start)))
 
