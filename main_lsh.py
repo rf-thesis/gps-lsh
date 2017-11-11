@@ -130,7 +130,7 @@ def finder(datafile):
 # for d in datafiles:
 #     finder(d)
 
-
+starter = time.time()
 processlist = []
 for d in datafiles:
     p = Process(target=finder, args=(d,))
@@ -141,7 +141,9 @@ for p in processlist:
 
 for p in processlist:
     p.join()
-    
+
+printlogger.info("Total time: %s" % str(time.time() - starter))
+
 
 
 
