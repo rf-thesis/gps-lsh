@@ -21,14 +21,6 @@ rowprinter = 5000
 def get_jaccard_similarity(listA, listB):
     return float(len(set(listA).intersection(set(listB)))) / float(len(set(listA).union(set(listB))))
 
-printlogger = logging.getLogger(__name__)
-printlogger.setLevel(logging.INFO)
-printhandler = logging.FileHandler('output.log')
-printhandler.setLevel(logging.INFO)
-printformatter = logging.Formatter('%(message)s')
-printhandler.setFormatter(printformatter)
-printlogger.addHandler(printhandler)
-
 
 def sig_matrix(data, fname):
     sigMat = []
@@ -50,7 +42,7 @@ def sig_matrix(data, fname):
 
         # Display the progress of building the signature matrix
         if rownum % rowprinter == 0:
-            printlogger.info("%-22s sigmat gen at row: %s" % (fname, rownum))
+            print("%-22s sigmat gen at row: %s" % (fname, rownum))
     return sigMat
 
 
@@ -64,13 +56,13 @@ def run_lsh(sigMat, data, fname):
 
         # Display the progress of building LSH
         if rownum % rowprinter == 0:
-            printlogger.info("%-22s LSH calc at row: %s" % (fname, rownum))
+            print("%-22s LSH calc at row: %s" % (fname, rownum))
 
     return lsh
 
 
 def finder(datafile):
-    printlogger.info("%s: starting to process" % datafile)
+    print("%s: starting to process" % datafile)
     fname = ntpath.basename(datafile)
     # create logger to write output
     logger = logging.getLogger(__name__)
@@ -84,23 +76,24 @@ def finder(datafile):
     # load data
     start = time.time()
     data = pd.read_csv(datafile, quotechar='"', delimiter=";")
-    printlogger.info("%-22s loaded -- %s sec" % (fname, str(time.time() - start)))
+    print("%-22s loaded -- %s sec" % (fname, str(time.time() - start)))
+
     # generate signature matrix
     start = time.time()
-    printlogger.info("%-22s start sigmat" % fname)
+    print("%-22s start sigmat" % fname)
     sigMat = sig_matrix(data, fname)
-    printlogger.info("%-22s sigmat done --  %s sec" % (fname, str(time.time() - start)))
+    print("%-22s sigmat done --  %s sec" % (fname, str(time.time() - start)))
 
     start = time.time()
-    printlogger.info("%-22s start LSH" % fname)
+    print("%-22s start LSH" % fname)
     lsh = run_lsh(sigMat, data, fname)
-    printlogger.info("%-22s LSH done --  %s sec" % (fname, str(time.time() - start)))
+    print("%-22s LSH done --  %s sec" % (fname, str(time.time() - start)))
 
     # Check the first # users
     number_of_users_to_check = len(sigMat)
 
     start = time.time()
-    printlogger.info("%-22s writing results" % fname)
+    print("%-22s writing results" % fname)
 
     for rownum in range(number_of_users_to_check):
 
@@ -122,7 +115,7 @@ def finder(datafile):
         if rownum % rowprinter == 0:
             logger.info("%-22s LSH display at row: %s" % (fname, rownum))
 
-    printlogger.info("%-22s results done --  %s sec" % (fname, str(time.time() - start)))
+    print("%-22s results done --  %s sec" % (fname, str(time.time() - start)))
 
 
 
@@ -142,7 +135,7 @@ for p in processlist:
 for p in processlist:
     p.join()
 
-printlogger.info("Total time: %s" % str(time.time() - starter))
+print("Total time: %s" % str(time.time() - starter))
 
 
 
