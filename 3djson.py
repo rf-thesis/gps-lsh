@@ -3,7 +3,7 @@ import json
 nodes = []
 links = []
 
-with open("15_2h.csv") as f:
+with open("gephi/network.csv") as f:
     for line in f:
         data = line.split(",")
         nodes.append(str(data[0]))
@@ -17,9 +17,9 @@ nodelist = []
 for n in nodes:
     nodelist.append({"id": "user" + str(n),
                      "label": "User " + str(n),
-                     "group": int(n)})
+                     "group": str(n)})
 
 res = {"nodes": nodelist, "links": links}
-with open('rf15.json ', 'w') as outfile:
+with open('network.json ', 'w') as outfile:
     json.dump(res, outfile)
 

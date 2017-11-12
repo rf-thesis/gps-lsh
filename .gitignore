@@ -6,3 +6,6 @@ smdata/
 results/
 output.csv
 output.log
+gephi/
+*.csv
+*.json
